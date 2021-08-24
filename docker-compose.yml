@@ -11,10 +11,10 @@ services:
         stdin_open: true
         build: 
             dockerfile: Dockerfile.dev
-            context: ./tequila-frontend
+            context: ./frontend
         volumes:
             - /app/node_modules
-            - ./tequila-frontend:/app
+            - ./frontend:/app
     nginx:
         depends_on:
         - api
