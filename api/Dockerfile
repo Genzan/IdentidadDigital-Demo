@@ -4,7 +4,7 @@ WORKDIR "/app"
 
 # Download and Install dependencies
 COPY ./package.json ./
+RUN apk add --no-cache bash git openssh
 RUN npm install
 COPY . .
-EXPOSE 4080
 CMD ["npm", "run", "start"]
