@@ -50,7 +50,7 @@ module.exports = {
     disableHostCheck: true,
     port: '4080',
     watchOptions: {
-      poll: true // Or you can set a value in milliseconds.
+      poll: true
     },
   },
   plugins: [
@@ -59,7 +59,7 @@ module.exports = {
       filename: './index.html',
     }),
     new webpack.DefinePlugin({
-      'process.env': JSON.stringify(dotenv.config().parsed) // it will automatically pick up key values from .env file
+      'process.env': JSON.stringify(dotenv.config().parsed)
    }),
   ],
 };
