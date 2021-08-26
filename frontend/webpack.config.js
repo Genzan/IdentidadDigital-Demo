@@ -1,46 +1,65 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
+const dotenv = require('dotenv');
 
 module.exports = {
   entry: './src/index.js',
   output: {
-    path: path.resolve(__dirname, "dist"),
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'bundle.js',
   },
   resolve: {
-    extensions: ['.js', '.jsx']
+    extensions: ['.js', '.jsx'],
+    fallback: {
+      "fs": false,
+      "tls": false,
+      "net": false,
+      "path": false,
+      "zlib": false,
+      "http": false,
+      "https": false,
+      "stream": false,
+      "crypto": false,
+      "util": false,
+    },
   },
   module: {
     rules: [
-        {
-          test: /\.(js|jsx)$/,
-          exclude: /node_modules/,
-          use: {
-            loader: 'babel-loader',
-          },
+      {
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
         },
-        {
-          test: /\.html$/,
-          use: {
-            loader: 'html-loader',
-          },
+      },
+      {
+        test: /\.html$/,
+        use: {
+          loader: 'html-loader',
         },
-        {
-          test: /\.css$/i,
-          use: ["style-loader", "css-loader"],
-        },
-    ]
+      },
+      {
+        test: /\.css$/i,
+        use: ["style-loader", "css-loader"],
+      },
+    ],
   },
   devServer: {
-    host: '0.0.0.0',
     historyApiFallback: true,
-    allowedHosts: 'all',
+    disableHostCheck: true,
     port: '4080',
+    watchOptions: {
+      poll: true // Or you can set a value in milliseconds.
+    },
   },
   plugins: [
     new HtmlWebpackPlugin({
       template: './public/index.html',
       filename: './index.html',
-      favicon: "./public/favicon.ico"
     }),
+    new webpack.DefinePlugin({
+      'process.env': JSON.stringify(dotenv.config().parsed) // it will automatically pick up key values from .env file
+   }),
   ],
-}
+};
