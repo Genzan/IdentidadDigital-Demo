@@ -8,7 +8,7 @@ contract Checker {
   address private contractOwner;
   address private checkerAddress;
 
-  constructor(address _checkerAddress) {
+  constructor(address _checkerAddress) public{
     contractOwner = msg.sender;
     checkerAddress = _checkerAddress;
   }

@@ -3,6 +3,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const app = express();
+const API_Check = require("./tools/Check");
+
+const checkObj = new API_Check();
 
 const SERVERPORT = 8020;
 
@@ -17,8 +20,15 @@ app.options('*', cors());
 app.use(bodyParser.json({ verify: rawBodyHandler }));
 
 // Funciones
-app.post('/api/ALGO', async (req, res) => {
-  res.status(200).send(s);
+app.post('/api/files/fileUpload', async (req, res) => {
+  API_Check.fileUpload(req.body.file);
+  let response = await checkObj.fileUpload(req.body.file);
+  if(response){
+    res.status(200).send();
+  }
+  else {
+    res.status(400).send();
+  }
 });
 
 // run the app server and tunneling service

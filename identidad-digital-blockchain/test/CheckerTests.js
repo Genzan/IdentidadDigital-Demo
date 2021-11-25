@@ -26,4 +26,12 @@ contract('Prueba de Oraculo', (accounts) => {
     const res = await instanceChecker.validateNewUploads();
     assert.equal(res, true, "Hay Uploads nuevos");
   });
+  it('Obtener la lista de nuevos Uploads', async () => {
+    const tx  = await instanceChecker.getNewUploads();
+    console.log("tx",tx);
+    truffleAssert.eventEmitted(tx, 'Check.gotFiles', (ev) => {
+      console.log("EV",ev);
+      return true;
+    }, 'ERR','El Evento no fue lanzado u obtuvo valores equivocados');
+  });
 });

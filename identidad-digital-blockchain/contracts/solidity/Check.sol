@@ -13,7 +13,7 @@ contract Check {
   event fileUploaded();
   event gotFiles(string[] _fileList);
 
-  constructor(){
+  constructor() public{
     contractOwner = msg.sender;
   }
 
