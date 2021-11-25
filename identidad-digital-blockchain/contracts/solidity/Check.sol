@@ -3,27 +3,36 @@ pragma solidity >=0.4.22 <0.9.0;
 pragma experimental ABIEncoderV2;
 
 contract Check {
+
   //State Variables
   address private contractOwner;
   bool internal fileNotification = false;
   string[] internal fileList;
 
-  constructor() public{
+  //Events
+  event fileUploaded();
+  event gotFiles(string[] _fileList);
+
+  constructor(){
     contractOwner = msg.sender;
   }
 
-  function fileUploaded(string memory _file) external{
+  function fileUpload(string memory _file) external{
     fileNotification = true;
     fileList.push(_file);
+    emit fileUploaded();
   }
 
-  function checkUploads() public view returns(bool){
+  function checkUploads() external view returns(bool){
     return fileNotification;
   }
 
-  function getUploads() external returns(string[] memory){
+  function getUploads() external{
     fileNotification = false;
-    return fileList;
+    string[] memory temporal = fileList;
+    string[] memory empty;
+    fileList = empty;
+    emit gotFiles(temporal);
   }
 
 }
